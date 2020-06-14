@@ -10,8 +10,8 @@ PEOPLE = [
 ]
 
 # Delete database file if it exists currently
-if os.path.exists('people.db'):
-    os.remove('people.db')
+if os.path.exists('sendmail.db'):
+    os.remove('sendmail.db')
 
 # Create the database
 db.create_all()
