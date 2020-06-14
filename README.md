@@ -56,11 +56,20 @@ www.python.org
 <br>
 -Open the link of the local server on the terminal in the browser,
 <br>
--Enter the endpoints specified below to access the different actions
+-Enter the endpoints specified with numbers below, along with access-token (x-acess-tokens) in the request <strong>Headers</strong> to access the different actions
 
 The SendMAil API includes the following endpoints:
  <br><br>
  <img width=1000 height=600px src="https://github.com/gblend/Team-Fierce_SendMail/blob/master/static/images/documentation_ui.PNG?raw=true" alt="Project logo"></a>
+<br><br>
+=>   <strong>/v1/auth/register</strong>
+    => This endpoint is used to register an account, through which access-token will be obtained for accessing certain resource.
+<br><br>
+=>   <strong>/v1/auth/login</strong>
+    => This endpoint is used to login registered user in other to obtain access-token for authentication
+<br><br>
+=>   <strong>/v1/auth/users</strong>
+    => This endpoint display the list of all registered users
 <br><br>
 =>   <strong>/v1/documentation</strong>
     => This endpoint responds with a json version of all endpoint documentation
