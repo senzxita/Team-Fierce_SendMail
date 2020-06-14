@@ -27,7 +27,7 @@ def token_required(f):
             }), 404
 
       try:
-          data = jwt.decode(token, connex_app.config['SECRET_KEY'])
+          data = jwt.decode(token, app.config['SECRET_KEY'])
           current_user = Users.query.filter_by(public_id=data['public_id']).first()
       except:
         return jsonify({
