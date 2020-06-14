@@ -1,6 +1,8 @@
 from flask import make_response, jsonify
 from mail.flask_mail import flask_plain_email
+from auth import token_required
 
+@token_required
 def sendemail(mail_object):
     """
     This function sends email to subscriber/subscribers

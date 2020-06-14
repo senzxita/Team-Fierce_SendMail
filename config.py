@@ -13,7 +13,7 @@ connex_app = connexion.App(__name__, specification_dir=basedir)
 app = connex_app.app
 
 app.config['SECRET_KEY'] = '278553b60d967495855d5b14'
-sqlite_url = "sqlite:///" + os.path.join(basedir, "people.db")
+sqlite_url = "sqlite:///" + os.path.join(basedir, "sendmail.db")
 # Configure the SQLAlchemy part of the app instance
 app.config['SQLALCHEMY_ECHO'] = True
 app.config['SQLALCHEMY_DATABASE_URI'] = sqlite_url

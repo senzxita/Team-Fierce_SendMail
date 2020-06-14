@@ -26,11 +26,11 @@ ns.model = (function () {
                     $event_pump.trigger('model_read_success', [data]);
                 })
                 .fail(function (xhr, textStatus, errorThrown) {
-                    alert('failed to load subscribers list');
+                    alert('failed to load subscribers list: a valid token is required for this request');
                 })
         },
 
-        create: function (fname, email) {
+        create: function (fname, email, access_token) {
             let ajax_options = {
                 type: 'POST',
                 url: 'people',
@@ -39,7 +39,8 @@ ns.model = (function () {
                 dataType: 'json',
                 data: JSON.stringify({
                     'fname': fname,
-                    'email': email
+                    'email': email,
+                    'x-access-token':access_token
                 })
             };
             $.ajax(ajax_options)
@@ -57,7 +58,7 @@ ns.model = (function () {
                 });
         },
 
-        update: function (fname, email) {
+        update: function (fname, email, access_token) {
             let ajax_options = {
                 type: 'PUT',
                 url: 'people/' + email,
@@ -66,7 +67,8 @@ ns.model = (function () {
                 dataType: 'json',
                 data: JSON.stringify({
                     'fname': fname,
-                    'email': email
+                    'email': email,
+                    'x-access-token': access_token
                 })
             };
             $.ajax(ajax_options)
@@ -83,7 +85,7 @@ ns.model = (function () {
                 })
         },
 
-        'delete': function (email) {
+        'delete': function (email, access_token) {
             let ajax_options = {
                 type: 'DELETE',
                 url: 'people/' + email,
@@ -200,7 +202,8 @@ ns.controller = (function (m, v) {
         view = v,
         $event_pump = $('body'),
         $fname = $('#fname'),
-        $email = $('#email');
+        $email = $('#email'),
+        $access_token = $('#access_token');
 
     // Get the data from the model after the controller is done initializing
     setTimeout(function () {
@@ -215,27 +218,29 @@ ns.controller = (function (m, v) {
     // Create our event handlers
     $('#create').click(function (e) {
         let fname = $fname.val(),
-            email = $email.val();
+            email = $email.val(),
+            access_token = $access_token.val();
 
         e.preventDefault();
 
-        if (validate(fname, email)) {
-            model.create(fname, email)
+        if (validate(fname, email, access_token)) {
+            model.create(fname, email, access_token)
         } else {
-            alert('Problem with full name or email input');
+            alert('Problem with full name, email or access token input');
         }
     });
 
     $('#update').click(function (e) {
         let fname = $fname.val(),
-            email = $email.val();
+            email = $email.val(),
+            access_token = $access_token.val();
 
         e.preventDefault();
 
-        if (validate(fname, email)) {
-            model.update(fname, email)
+        if (validate(fname, email, access_token)) {
+            model.update(fname, email, access_token)
         } else {
-            alert('Problem with full name or email input');
+            alert('Problem with full name, email or access token input');
         }
         e.preventDefault();
     });
@@ -305,8 +310,8 @@ ns.controller = (function (m, v) {
 
     $event_pump.on('model_error', function (e, xhr, textStatus, errorThrown) {
         let error_msg = textStatus + ': ' + xhr.responseJSON.detail;
-        view.error(error_msg);
-        console.log(error_msg);
+        view.error(error_msg.data.message);
+        console.log(error_msg.data.message);
     })
 }(ns.model, ns.view));
 

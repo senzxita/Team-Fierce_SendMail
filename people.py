@@ -1,9 +1,10 @@
-
-from flask import abort, make_response, jsonify
+from flask import abort, make_response, jsonify, request
 from datetime import datetime
 from markupsafe import Markup, escape
 from config import db
-from models import Person, PersonSchema
+from models import Person, PersonSchema, Users
+from auth import token_required 
+
 
 #init schema
 person_schema = PersonSchema()
@@ -11,6 +12,7 @@ people_schema = PersonSchema(many=True)
 
 
 # Create a handler for our read (GET) people
+@token_required
 def read_all():
     """
     This function responds to a request for /v1/people
@@ -25,7 +27,7 @@ def read_all():
     # Serialize the data for the response
     return people_schema.jsonify(people)
 
-
+@token_required
 def read_one(email):
     # Get the person requested
     person = Person.query.filter(Person.email == email).one_or_none()
@@ -42,7 +44,7 @@ def read_one(email):
             404, "Person with email {email} not found".format(email=email)
         )
 
-
+@token_required
 def create(person):
     """
     This function creates a new person in the subscribers structure
@@ -77,7 +79,7 @@ def create(person):
             406, "Person with email {email} already exist".format(email=email)
         )
 
-
+@token_required
 def update(email, person):
     """
     This function updates an existing person in the people structure
@@ -118,7 +120,7 @@ def update(email, person):
         return data, 200
         
 
-
+@token_required
 def delete(email):
     """
     This function deletes a person from the subscribers structure
