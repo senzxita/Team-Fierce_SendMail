@@ -12,7 +12,7 @@ connex_app = connexion.App(__name__, specification_dir=basedir)
 # Get the underlying Flask app instance
 app = connex_app.app
 
-app.config['SECRET_KEY'] = '278553b60d967495855d5b14'
+app.config['SECRET_KEY'] = 'add key'
 sqlite_url = "sqlite:///" + os.path.join(basedir, "sendmail.db")
 # Configure the SQLAlchemy part of the app instance
 app.config['SQLALCHEMY_ECHO'] = True
